@@ -2,10 +2,8 @@
 
  
 
-
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-
 
 pragma solidity ^0.8.4;
 
@@ -16,11 +14,10 @@ contract Collection is ERC721Enumerable, Ownable {
     string public baseURI;
     string public baseExtension = ".json";
     uint256 public maxSupply = 2000;
-      uint256 public cost = 0.005 ether;
     uint256 public maxMintAmount = 10;
     bool public paused = false;
 
-    constructor() ERC721("BoredSkullsClub", "BCSCOL") {}
+    constructor() ERC721("BoredSkullsClub", "BSKULLCOL") {}
 
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -35,10 +32,6 @@ contract Collection is ERC721Enumerable, Ownable {
             require(_mintAmount <= maxMintAmount);
             require(supply + _mintAmount <= maxSupply);
             
-            if (msg.sender != owner()) {
-            require(msg.value == cost * _mintAmount, "Need to send 0.005 ether!");
-            }
-
             for (uint256 i = 1; i <= _mintAmount; i++) {
                 _safeMint(_to, supply + i);
             }
